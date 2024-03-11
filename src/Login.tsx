@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Label } from "./components/ui/label";
 import { Input } from "./components/ui/input";
-import { cn } from "/Users/arnav/Desktop/hacknova/client/my-app/src/utils/cn";
+import { cn } from "./utils/cn";
 import {
   IconBrandGithub,
   IconBrandGoogle,
@@ -10,20 +10,19 @@ import {
 } from "@tabler/icons-react";
 import { TextGenerateEffect } from "./components/ui/text-generate-effect";
 import { BackgroundBeams } from "./components/ui/background-beams";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 const welcomeText = "Welcome to Virtual Palette.ai";
 
-
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Perform login logic here
-    navigate('/palette');
+    navigate("/palette");
   };
 
   const toggleMode = () => {
@@ -34,16 +33,20 @@ const Login: React.FC = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white relative z-10">
         <h2 className="font-bold text-xl text-neutral-800">
-          <TextGenerateEffect words={welcomeText}/>
+          <TextGenerateEffect words={welcomeText} />
         </h2>
         <p className="text-neutral-600 text-sm max-w-sm mt-2">
-          {isSignUp ? 'Sign up for an account' : 'Login to your account'}
+          {isSignUp ? "Sign up for an account" : "Login to your account"}
         </p>
 
         {isSignUp ? (
           <SignupForm />
         ) : (
-          <LoginForm email={email} setEmail={setEmail} handleSubmit={handleSubmit} />
+          <LoginForm
+            email={email}
+            setEmail={setEmail}
+            handleSubmit={handleSubmit}
+          />
         )}
 
         <div className="bg-gradient-to-r from-transparent via-neutral-300 to-transparent my-8 h-[1px] w-full" />
@@ -52,10 +55,10 @@ const Login: React.FC = () => {
           className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           onClick={toggleMode}
         >
-          {isSignUp ? 'Login' : 'Sign Up'}
+          {isSignUp ? "Login" : "Sign Up"}
         </button>
       </div>
-  <BackgroundBeams />
+      <BackgroundBeams />
     </div>
   );
 };
@@ -98,25 +101,44 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-    
     <form className="my-8" onSubmit={handleSubmit}>
       <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
         <LabelInputContainer>
           <Label htmlFor="firstname">First name</Label>
-          <Input id="firstname" placeholder="Tyler" type="text" className="bg-white text-gray-900" />
+          <Input
+            id="firstname"
+            placeholder="Tyler"
+            type="text"
+            className="bg-white text-gray-900"
+          />
         </LabelInputContainer>
         <LabelInputContainer>
           <Label htmlFor="lastname">Last name</Label>
-          <Input id="lastname" placeholder="Durden" type="text" className="bg-white text-gray-900" />
+          <Input
+            id="lastname"
+            placeholder="Durden"
+            type="text"
+            className="bg-white text-gray-900"
+          />
         </LabelInputContainer>
       </div>
       <LabelInputContainer className="mb-4">
         <Label htmlFor="email">Email Address</Label>
-        <Input id="email" placeholder="projectmayhem@fc.com" type="email" className="bg-white text-gray-900" />
+        <Input
+          id="email"
+          placeholder="projectmayhem@fc.com"
+          type="email"
+          className="bg-white text-gray-900"
+        />
       </LabelInputContainer>
       <LabelInputContainer className="mb-4">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" placeholder="••••••••" type="password" className="bg-white text-gray-900" />
+        <Input
+          id="password"
+          placeholder="••••••••"
+          type="password"
+          className="bg-white text-gray-900"
+        />
       </LabelInputContainer>
 
       <button
@@ -155,9 +177,7 @@ const SignupForm: React.FC = () => {
           <BottomGradient />
         </button>
       </div>
-      
     </form>
-    
   );
 };
 
