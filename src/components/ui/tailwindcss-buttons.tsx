@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { IconClipboard } from "@tabler/icons-react";
-import { cn } from "/Users/arnav/Desktop/hacknova/client/my-app/src/utils/cn";
+import { cn } from "../../utils/cn";
 
 export const ButtonsCard = ({
   children,

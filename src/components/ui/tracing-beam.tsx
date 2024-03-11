@@ -7,7 +7,7 @@ import {
   useVelocity,
   useSpring,
 } from "framer-motion";
-import { cn } from "/Users/arnav/Desktop/hacknova/client/my-app/src/utils/cn";
+import { cn } from "../../utils/cn";
 
 export const TracingBeam = ({
   children,

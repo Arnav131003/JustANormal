@@ -1,4 +1,4 @@
-import { cn } from "/Users/arnav/Desktop/hacknova/client/my-app/src/utils/cn";
+import { cn } from "../../utils/cn";
 import clsx from "clsx";
 import React from "react";
 

@@ -9,12 +9,32 @@ import { animated, useSpring } from 'react-spring';
 const useStyles = makeStyles((theme) => ({
   appBar: {
     marginBottom: theme.spacing(4),
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    background: 'linear-gradient(45deg, #0A2463  30%, #D9D9D9 90%)',
     justifyContent: 'center',
+  },
+  pausedText: {
+    backgroundImage: 'linear-gradient(45deg, #0A2463  100%, #D9D9D9 70%)',
+    backgroundClip: 'text',
+    WebkitBackgroundClip: 'text',
+    color: 'transparent',
+    animation: '$animateGradient 1s ease infinite',
+  },
+  '@keyframes animateGradient': {
+    '0%': {
+      backgroundPosition: '0% 50%',
+    },
+    '50%': {
+      backgroundPosition: '100% 50%',
+    },
+    '100%': {
+      backgroundPosition: '0% 50%',
+    },
   },
   title: {
     flexGrow: 1,
     textAlign: 'center',
+    color: '#F3D99E',
+    fontSize: '1.8rem',
   },
   videoFeed: {
     width: '100%',
@@ -61,8 +81,10 @@ const VirtualPalette = () => {
   const [isRecording, setIsRecording] = useState(false);
   const { transcript, resetTranscript } = useSpeechRecognition();
   const streamSrc = isStreaming ? 'http://127.0.0.1:5000/video_feed' : '';
+  const [generatedTranscript, setGeneratedTranscript] = useState('');
+  const [isPaused, setIsPaused] = useState(true);
 
-  const titleProps = useSpring({ 
+  const titleProps = useSpring({
     from: { opacity: 0 },
     to: { opacity: 1 },
     delay: 500,
@@ -76,7 +98,7 @@ const VirtualPalette = () => {
   const handleCommentSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const comment = event.currentTarget.comment.value.trim();
-    
+
     if (comment !== '') {
       setComments([...comments, comment]);
       event.currentTarget.comment.value = '';
@@ -84,7 +106,12 @@ const VirtualPalette = () => {
   };
 
   const handleToggleStreaming = () => {
-    setIsStreaming(!isStreaming);
+    const newIsPaused = !isPaused;
+    setIsPaused(newIsPaused);
+    setIsStreaming(!newIsPaused);
+
+    // fetch(/pause_stream?paused=${!isPaused})
+    //   .catch(error => console.error('Error:', error));
   };
 
   const startListening = () => {
@@ -97,6 +124,30 @@ const VirtualPalette = () => {
     SpeechRecognition.stopListening();
   };
 
+  const generateTranscript = () => {
+    fetch('transcript.txt')
+      .then(response => response.text())
+      .then(text => setGeneratedTranscript(text))
+      .catch(error => console.error('Error loading transcript:', error));
+  };
+  const submitTranscript = () => {
+    fetch('/submit_transcript', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ transcript: generatedTranscript }),
+    })
+      .then(response => {
+        if (response.ok) {
+          // Redirect to doubtsection page after successful submit
+          window.location.href = '/doubtsection';
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
   return (
     <Container>
       <AppBar position="static" className={classes.appBar}>
@@ -116,12 +167,12 @@ const VirtualPalette = () => {
               {isStreaming ? (
                 <img src={streamSrc} alt="Video Feed" style={{ width: '100%', height: 'auto' }} />
               ) : (
-                <Typography variant="h6">Stream Paused</Typography>
+                <Typography variant="h6" className={classes.pausedText}>Stream Paused</Typography>
               )}
             </Paper>
           </BackgroundGradient>
           <Button variant="contained" color="primary" onClick={handleToggleStreaming} className={classes.pauseButton}>
-            {isStreaming ? 'Pause Stream' : 'Resume Stream'}
+            {isPaused ? 'Resume Stream' : 'Pause Stream'}
           </Button>
           <TextField
             label="Live Transcription"
@@ -129,7 +180,7 @@ const VirtualPalette = () => {
             className={classes.transcriptionBox}
             multiline
             rows={4}
-            value={transcript}
+            value={generatedTranscript || transcript}
             placeholder="Transcription will appear here..."
             InputProps={{
               readOnly: true,
@@ -141,6 +192,22 @@ const VirtualPalette = () => {
             onClick={isRecording ? stopListening : startListening}
           >
             {isRecording ? 'Stop Speech-to-Text' : 'Enable Speech-to-Text'}
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={generateTranscript}
+            style={{ marginLeft: '8px' }}
+          >
+            Generate Transcript
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={submitTranscript}
+            style={{ marginLeft: '8px' }}
+          >
+            Submit Transcript
           </Button>
         </Grid>
         <Grid item xs={12} md={4}>

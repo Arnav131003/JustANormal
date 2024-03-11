@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "/Users/arnav/Desktop/hacknova/client/my-app/src/utils/cn";
+import { cn } from "../../utils/cn";
 import Image from "next/image";
 import React, {
   createContext,
