@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { motion, stagger, useAnimate } from "framer-motion";
-import { cn } from "/Users/arnav/Desktop/hacknova/client/my-app/src/utils/cn";
+import { cn } from "../../utils/cn";
 
 export const TextGenerateEffect = ({
   words,
@@ -30,10 +30,7 @@ export const TextGenerateEffect = ({
       <motion.div ref={scope}>
         {wordsArray.map((word, idx) => {
           return (
-            <motion.span
-              key={word + idx}
-              className=" text-black opacity-0"
-            >
+            <motion.span key={word + idx} className=" text-white opacity-0">
               {word}{" "}
             </motion.span>
           );

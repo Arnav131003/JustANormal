@@ -5,10 +5,11 @@
 * {
   margin: 0;
   padding: 0;
-} 
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont,'Poppins', 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: -apple-system, BlinkMacSystemFont, 'Poppins', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -20,6 +21,17 @@ code {
     monospace;
 }
 
-html, body {
-  background-color:  bg-white;
+html,
+body {
+  background-color: bg-white;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
 }
