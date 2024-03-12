@@ -16,7 +16,7 @@ This repository contains the code implementation for Virtual Pallete.ai.that aim
 
 ### Installation
 
-1. Clone the LipNet repository:
+1. Clone the Virtual Pallete repository:
 
     ```
     git clone https://github.com/Arnav131003/JustANormal.ai
