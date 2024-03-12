@@ -28,7 +28,9 @@ import Doubt from "./Doubt";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     marginBottom: theme.spacing(4),
-    background: "linear-gradient(45deg, #0A2463  30%, #D9D9D9 90%)",
+    marginTop: "1px",
+    // background: "linear-gradient(45deg, #0A2463  30%, #D9D9D9 90%)",
+    paddingTop: "20px",
     justifyContent: "center",
   },
   pausedText: {
@@ -52,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
     textAlign: "center",
+    marginTop: theme.spacing(1),
+    paddingBottom: "5px",
     color: "#F3D99E",
     fontSize: "1.8rem",
   },
@@ -168,122 +172,125 @@ const VirtualPalette = () => {
       });
   };
   return (
-    <Container className=" bg-zinc-700]">
-      <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
-          <animated.div style={titleProps}>
-            <Typography variant="h6" className={classes.title}>
-              Virtual Palette
-            </Typography>
-          </animated.div>
-        </Toolbar>
-      </AppBar>
+    <div className="bg-zinc pt-6">
+      <Container>
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar>
+            <animated.div style={titleProps}>
+              <Typography variant="h6" className={classes.title}>
+                Virtual Palette
+              </Typography>
+            </animated.div>
+          </Toolbar>
+        </AppBar>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
-          <BackgroundGradient className={classes.videoFeedContainer}>
-            <Paper className={classes.videoFeed}>
-              {isStreaming ? (
-                <img
-                  src={streamSrc}
-                  alt="Video Feed"
-                  style={{ width: "100%", height: "auto" }}
-                />
-              ) : (
-                <Typography variant="h6" className={classes.pausedText}>
-                  Stream Paused
-                </Typography>
-              )}
-            </Paper>
-          </BackgroundGradient>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleToggleStreaming}
-            className={classes.pauseButton}
-          >
-            {isPaused ? "Resume Stream" : "Pause Stream"}
-          </Button>
-          <TextField
-            label="Live Transcription"
-            variant="outlined"
-            className={classes.transcriptionBox}
-            multiline
-            rows={4}
-            value={generatedTranscript || transcript}
-            placeholder="Transcription will appear here..."
-            style={{
-              color: "white",
-            }}
-            InputProps={{
-              readOnly: true,
-              style: {},
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={isRecording ? stopListening : startListening}
-          >
-            {isRecording ? "Stop Speech-to-Text" : "Enable Speech-to-Text"}
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={generateTranscript}
-            style={{ marginLeft: "8px" }}
-          >
-            Generate Transcript
-          </Button>
-          <Link to={"/doubt"}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={8}>
+            <BackgroundGradient className={classes.videoFeedContainer}>
+              <Paper className={classes.videoFeed}>
+                {isStreaming ? (
+                  <img
+                    src={streamSrc}
+                    alt="Video Feed"
+                    style={{ width: "100%", height: "auto", color: "white" }}
+                  />
+                ) : (
+                  <Typography variant="h6" className={classes.pausedText}>
+                    Stream Paused
+                  </Typography>
+                )}
+              </Paper>
+            </BackgroundGradient>
             <Button
               variant="contained"
               color="primary"
-              onClick={submitTranscript}
-              style={{ marginLeft: "8px" }}
+              onClick={handleToggleStreaming}
+              className={classes.pauseButton}
             >
-              Submit Transcript
+              {isPaused ? "Resume Stream" : "Pause Stream"}
             </Button>
-          </Link>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Typography variant="h6" gutterBottom className="text-white">
-            Comments
-          </Typography>
-          <Paper className={classes.commentSection}>
-            <List>
-              {comments.map((comment, index) => (
-                <React.Fragment key={index}>
-                  <ListItem>
-                    <ListItemText primary={comment} />
-                  </ListItem>
-                  {index < comments.length - 1 && <Divider />}
-                </React.Fragment>
-              ))}
-            </List>
-          </Paper>
-          <form onSubmit={handleCommentSubmit}>
             <TextField
-              label="Add a comment"
-              inputProps={{
-                style: {},
-              }}
+              label="Live Transcription"
               variant="outlined"
-              className={classes.commentInput}
-              name="comment"
+              className={classes.transcriptionBox}
+              multiline
+              rows={4}
+              value={generatedTranscript || transcript}
+              placeholder="Transcription will appear here..."
+              style={{
+                color: "white",
+              }}
+              InputProps={{
+                readOnly: true,
+                style: { color: "white" },
+              }}
             />
             <Button
-              type="submit"
               variant="contained"
               color="primary"
-              style={{ marginTop: "8px" }}
+              onClick={isRecording ? stopListening : startListening}
             >
-              Post Comment
+              {isRecording ? "Stop Speech-to-Text" : "Enable Speech-to-Text"}
             </Button>
-          </form>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={generateTranscript}
+              style={{ marginLeft: "8px" }}
+            >
+              Generate Transcript
+            </Button>
+            <Link to={"/doubt"}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={submitTranscript}
+                style={{ marginLeft: "8px" }}
+              >
+                Submit Transcript
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Typography variant="h6" gutterBottom className="text-white">
+              Comments
+            </Typography>
+            <Paper className={classes.commentSection}>
+              <List>
+                {comments.map((comment, index) => (
+                  <React.Fragment key={index}>
+                    <ListItem>
+                      <ListItemText primary={comment} />
+                    </ListItem>
+                    {index < comments.length - 1 && <Divider />}
+                  </React.Fragment>
+                ))}
+              </List>
+            </Paper>
+            <form onSubmit={handleCommentSubmit}>
+              <TextField
+                label="Add a comment"
+                // style={{background:}}
+                inputProps={{
+                  style: { color: "white" },
+                }}
+                variant="outlined"
+                className={classes.commentInput}
+                name="comment"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginTop: "8px" }}
+              >
+                Post Comment
+              </Button>
+            </form>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </div>
   );
 };
 
